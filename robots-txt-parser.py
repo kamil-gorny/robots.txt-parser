@@ -17,11 +17,9 @@ def parse():
     
     response_content = res.text
     response_parsed = ""
-
-    for line in response_content.splitlines():
-        if not line.startswith("User-Agent:") and not len(line.strip()) == 0:
-            response_parsed += line.replace("Disallow: ", args.host).replace("Allow: ", args.host) + "\n"
-
-    print(response_parsed)
+    with open("robots-txt-links.txt", "w") as f:
+        for line in response_content.splitlines():
+            if not line.startswith("User-Agent:") and not len(line.strip()) == 0 and not line.startswith("#"):
+                f.write(line.replace("Disallow: ", args.host).replace("Allow: ", args.host).replace("Sitemap: ", args.host) + "\n")
 
 parse()
